@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "versus"
+version = "0.1.0"
+description = "VERSUS project"
+authors = ["TEAM DR.Bigyo"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.7"
+django-redis = "^5.4.0"
+gunicorn = "^21.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
