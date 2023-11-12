@@ -22,7 +22,7 @@ DATABASES = {
         'NAME': 'versus',
         'USER': 'drb',
         'PASSWORD': 'drbpw1@',
-        'HOST': 'postgres',
+        'HOST': 'drb-server',
         'PORT': '5432',
     }
 }

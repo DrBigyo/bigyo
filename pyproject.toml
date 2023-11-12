@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "versus"
+name = "app"
 version = "0.1.0"
 description = "VERSUS project"
 authors = ["TEAM DR.Bigyo"]
