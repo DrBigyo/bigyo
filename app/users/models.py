@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
 class UserManager(UserManager):
@@ -16,12 +16,15 @@ class UserManager(UserManager):
         Create and save a superuser with the given email and password.
         """
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_staff', True)
 
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
         return self.create_user(name, password, **extra_fields)
 
-class User(AbstractUser, PermissionsMixin):
+class User(AbstractUser):
     name = models.CharField(max_length=50, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
