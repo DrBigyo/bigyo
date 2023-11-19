@@ -10,38 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import logging.config
 from pathlib import Path
+from loguru import logger
+from .log_handler import LoguruHandler
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE SETTINGS ========================================================================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# PostgreSQL Configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'versus',
-        'USER': 'drb',
-        'PASSWORD': 'drbpw1@',
-        'HOST': 'drb-server',
-        'PORT': '5432',
-    }
-}
-
-# Redis Configuration
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
-
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-zngobh_%@w0sxulp3@=@@c0@0yohgvnagoi%o-p#hd%cynxjq2'
@@ -51,8 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
-# Application definition
+# APP DEFINITION =======================================================================================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -61,7 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crawler'
+    'rest_framework',  # REST API
+    'drf_yasg',  # Swagger
+    # ========================== OUR APPS ==============================
+    'crawler',
+    'datacore',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -94,17 +73,69 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'versus.wsgi.application'
 
+AUTH_USER_MODEL = 'users.User'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# Database =============================================================================================================
+# PostgreSQL Configuration
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'versus',
+        'USER': 'drb',
+        'PASSWORD': 'drbpw1@',
+        'HOST': 'drb-server',
+        'PORT': '5432',
     }
 }
 
+# Redis Configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+# LOGGER SETTINGS ======================================================================================================
+LOGGING_CONFIG = None
+
+LOG_LEVEL = 'DEBUG'
+
+logging.config.dictConfig({
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "loguru": {
+            "class": "versus.log_handler.LoguruHandler",
+            "level": LOG_LEVEL,
+        },
+    },
+    "loggers": {
+        # Define loggers
+        "django": {
+            "handlers": ["loguru"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
+        "django.request": {
+            "handlers": ["loguru"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
+        # Add other loggers if needed
+    },
+})
+
+logger.add(os.path.join(BASE_DIR, 'versus/logs/django.log'), rotation="100 MB")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

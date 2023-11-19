@@ -1,9 +1,10 @@
 from django.apps import AppConfig
 
 
-class CrawlerConfig(AppConfig):
+class DatacoreConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'crawler'
+    name = 'datacore'
+
 
     def ready(self):
-        print('Crawler initialization here')
+        print('Datacore initialization here')
