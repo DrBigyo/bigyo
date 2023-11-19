@@ -19,26 +19,37 @@ from django.urls import path, re_path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
-
+# BASE URL =============================================================================================================
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('datacore/', include('datacore.urls')),
+    path('api/datacore/', include('datacore.urls')),
+]
+
+# AUTHENTICATION =======================================================================================================
+urlpatterns += [
+    # JWT Authentication endpoints
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 
+# DOCUMENTATION ========================================================================================================
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Your API Title",
-      default_version='v1',
-      description="Your API description",
-      terms_of_service="https://www.yourcompany.com/terms/",
-      contact=openapi.Contact(email="contact@yourcompany.local"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Dr.Bigyo BackendAPI",
+        default_version='v1',
+        description="비교박사 백엔드 페이지에 오신 것을 환영합니다",
+        # terms_of_service="https://www.example.com/terms/",
+        contact=openapi.Contact(email="phd.bigyo@gmail.com")
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns += [

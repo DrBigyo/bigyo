@@ -75,6 +75,13 @@ WSGI_APPLICATION = 'versus.wsgi.application'
 
 AUTH_USER_MODEL = 'users.User'
 
+# REST FRAMEWORK SETTING ===============================================================================================
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
 # Database =============================================================================================================
 # PostgreSQL Configuration
 DATABASES = {
