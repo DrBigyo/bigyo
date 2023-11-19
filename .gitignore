@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# LOGS FILE
+app/versus/logs/
+
 # C extensionsg
 *.so
 
