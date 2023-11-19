@@ -13,5 +13,3 @@ class UsersConfig(AppConfig):
         if not User.objects.filter(is_superuser=True).exists():
             User.objects.create_superuser(name='admin', password='drbpw12!@')
             logger.info('[User] Admin "admin" account created ✅')
-        else:
-            logger.info('[User] Admin "admin" account checked ✅')
