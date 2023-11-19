@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     # ========================== OUR APPS ==============================
     'crawler',
     'datacore',
-    'users'
+    'users',
+    'polls'
 ]
 
 MIDDLEWARE = [
