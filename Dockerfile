@@ -22,9 +22,6 @@ EXPOSE 8000
 
 WORKDIR /usr/src/drb/app
 
-# Collect static files
-RUN poetry run python manage.py collectstatic --noinput
-
 # Run the application
 CMD ["gunicorn", "versus.wsgi:application", "--bind", "0.0.0.0:8000"]
 
