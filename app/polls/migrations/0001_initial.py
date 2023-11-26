@@ -1,6 +1,3 @@
-
-841d8922de71e784db7e010d29c718110b12cec8
-
 from django.db import migrations, models
 import django.db.models.deletion
 
