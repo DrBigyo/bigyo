@@ -20,6 +20,9 @@ COPY . /usr/src/app/app
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
 # Run the application
 CMD ["gunicorn", "versus.wsgi:application", "--bind", "0.0.0.0:8000"]
 
